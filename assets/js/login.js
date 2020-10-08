@@ -12,7 +12,7 @@ $(function () {
 
 
   //自定义校验规则
-  //从layui中到处form对象
+  //从layui中到获取form对象
   var form = layui.form;
 
   // 校验规则
@@ -68,6 +68,7 @@ $(function () {
     $.ajax({
       method: 'post',
       url: '/api/login',
+      //快速获取表单中的数据  serialize()
       data: $(this).serialize(),
       success: function (res) {
         //校验返回状态

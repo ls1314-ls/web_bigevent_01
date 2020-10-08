@@ -8,8 +8,27 @@ var baseURL = "http://ajax.frontend.itheima.net"
 
 // 拦截所有Ajax请求: get post ajax 
 //处理参数
-$.ajaxPrefilter(function (params) {
+$.ajaxPrefilter(function (options) {
   //拼接对应环境的服务器地址
-  params.url = baseURL + params.url
-  alert(params.url)
-})
+  options.url = baseURL + options.url
+  // alert(params.url)
+
+  //为 /my/ 开头的所有的ajax 配置头信息 必须以/my/开头才行
+  if (options.url.indexOf("/my/") !== -1) {
+    options.headers = {
+      Authorization: localStorage.getItem('token') || ''
+    }
+  }
+
+  //无论成功和失败，都会触发complete方法
+  options.complete = function (res) {
+    console.log(res);
+    //判断，如果身份验证失败，跳转回登录页面
+    if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败！') {
+      //删除本地token
+      localStorage.removeItem('token')
+      //跳转页面
+      location.href = '/login.html'
+    }
+  }
+});

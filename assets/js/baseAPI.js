@@ -22,7 +22,7 @@ $.ajaxPrefilter(function (options) {
 
   //无论成功和失败，都会触发complete方法
   options.complete = function (res) {
-    console.log(res);
+    // console.log(res);
     //判断，如果身份验证失败，跳转回登录页面
     if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败！') {
       //删除本地token
